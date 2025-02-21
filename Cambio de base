@@ -1,0 +1,211 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMwMh0T1ZhpNwHhGnh+qDcq"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "LAOoq1U9LshM"
+      },
+      "outputs": [],
+      "source": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "num=26\n",
+        "\n",
+        "print(num, \" en sistema binario es \", bin(num))\n",
+        "print(num, \" en sistema octal es \", oct(num))\n",
+        "print(num, \" en sistema hexadeciaml es \", hex(num))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xrtkigGIPPiZ",
+        "outputId": "415854bf-dd29-44d0-dc67-ca3c2fa5ff1c"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "26  en sistema binario es  0b11010\n",
+            "26  en sistema octal es  0o32\n",
+            "26  en sistema hexadeciaml es  0x1a\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Esta siguiente funcion transforma un numero decimal en la base indicada \"n\"."
+      ],
+      "metadata": {
+        "id": "AyOQPqqeWdid"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def CambioBaseEnt(num,n):\n",
+        "  lista=[] #Aquí se guardan los digitos binarios\n",
+        "  while num != 0:\n",
+        "    num=int(num/n) #Este es el factor\n",
+        "    lista.insert(0,num%n) #Guardo el resto en el inicio de una lista con insert\n",
+        "  cadena=\"\"\n",
+        "  for l in lista:\n",
+        "    cadena=cadena+str(l) #Guardo la lista como cadena para poder manipularla mas facil\n",
+        "  return cadena"
+      ],
+      "metadata": {
+        "id": "lOP4uprfQV7x"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "num=102\n",
+        "CambioBaseEnt(num,2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        },
+        "id": "Bcv5sslKXlJ0",
+        "outputId": "a65a62cf-691c-481e-bc17-07b2ef4ae712"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'0110011'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 86
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def CambioBaseFrac(num,n):\n",
+        "  lista=[]\n",
+        "  while num != 0:\n",
+        "    num=num*n #Multiplico el numero por la base a la que lo estoy cambiando\n",
+        "    lista.append(int(num)) #Guardo la parte entera\n",
+        "    num=num-int(num) #Me quedo con la parte decimal\n",
+        "  cadena=\".\" #Empiezo la cadena con un punto\n",
+        "  for l in lista:\n",
+        "    cadena=cadena+str(l)#Guardo la lista como cadena para poder manipularla mas facil\n",
+        "  return cadena"
+      ],
+      "metadata": {
+        "id": "TZFAP_oWcWua"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "num=.125\n",
+        "CambioBaseFrac(num,2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        },
+        "id": "S16ZFmfLdqj6",
+        "outputId": "8c262ea8-dd3b-4f85-f51c-d892c838442b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'.001'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 80
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def CambioBase(num,n): #esta funcion cambia de base a cualquier numero\n",
+        "  ent=int(num)\n",
+        "  cadent=CambioBaseEnt(ent,n) #Aca se cambia de base a la parte entera del numero\n",
+        "  if num-ent != 0: #Aca se verifica si el numero tiene parte decimal\n",
+        "    frac=num-ent\n",
+        "    cadfrac=CambioBaseFrac(frac,n) #Aca se cambia de base a la parte decimal\n",
+        "    cad=cadent+cadfrac #Se unen las dos partes\n",
+        "    print(cad)\n",
+        "  else:\n",
+        "    print(cadent)"
+      ],
+      "metadata": {
+        "id": "O69JVSmEeVpq"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "num=102.125\n",
+        "CambioBase(num,2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vEgGLIYNfR4J",
+        "outputId": "26495f2a-1ac4-4bb5-9a8e-97259d052af0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "0110011.001\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
