@@ -1,0 +1,139 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyM1DJUMaLuPCQZpzY9IMPqX",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/JonaRaccoon/MetodosNumericos/blob/main/Falsa_posici%C3%B3n\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import math"
+      ],
+      "metadata": {
+        "id": "wAzMWW9wDti_"
+      },
+      "execution_count": 1,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def f(x):\n",
+        "    v=np.cos(x)-x\n",
+        "    return v"
+      ],
+      "metadata": {
+        "id": "KfQhXdM_D1F6"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "a=0.5\n",
+        "b=(np.pi)/4\n",
+        "i=1\n",
+        "tabla=[]\n",
+        "\n",
+        "h=b-(f(b)*(b-a))/(f(b)-f(a))\n",
+        "va=f(h)"
+      ],
+      "metadata": {
+        "id": "65KS2fRsIozr"
+      },
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "if f(a) > f(b):\n",
+        "    while va != 0:\n",
+        "        va=f(h)\n",
+        "        elemento=[i,a,b,h,va]\n",
+        "        tabla.append(elemento)\n",
+        "        if va < 0:\n",
+        "            b=h\n",
+        "        elif va > 0:\n",
+        "            a=h\n",
+        "        h=b-(f(b)*(b-a))/(f(b)-f(a))\n",
+        "        i+=1\n",
+        "else:\n",
+        "    while va != 0:\n",
+        "        va=f(h)\n",
+        "        elemento=[i,a,b,h,va]\n",
+        "        tabla.append(elemento)\n",
+        "        if va < 0:\n",
+        "            a=h\n",
+        "        elif va > 0:\n",
+        "            b=h\n",
+        "        h=b-(f(b)*(b-a))/(f(b)-f(a))\n",
+        "        i+=1"
+      ],
+      "metadata": {
+        "id": "qQc1ojBSHcC_"
+      },
+      "execution_count": 11,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 12,
+      "metadata": {
+        "id": "Et4PpYBe8hRm",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "1e38365d-131c-4631-8bea-76ff6d4bc966"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "n   an                    bn                    pn                    f(pn)                 \n",
+            "1   0.5                   0.7853981633974483    0.7363841388365822    0.0045177185221702    \n",
+            "2   0.7363841388365822    0.7853981633974483    0.7390581392138897    4.5177215963754236e-05\n",
+            "3   0.7390581392138897    0.7853981633974483    0.7390848638147098    4.5087180833291995e-07\n",
+            "4   0.7390848638147098    0.7853981633974483    0.7390851305265789    4.499642769495438e-09 \n",
+            "5   0.7390851305265789    0.7853981633974483    0.7390851331883289    4.490585681082848e-11 \n",
+            "6   0.7390851331883289    0.7853981633974483    0.7390851332148929    4.480860127387132e-13 \n",
+            "7   0.7390851332148929    0.7853981633974483    0.739085133215158     4.440892098500626e-15 \n",
+            "8   0.739085133215158     0.7853981633974483    0.7390851332151607    0.0                   \n"
+          ]
+        }
+      ],
+      "source": [
+        "print(\"{:<4}{:<22}{:<22}{:<22}{:<22}\".format(\"n\",\"an\",\"bn\",\"pn\",\"f(pn)\"))\n",
+        "for i in tabla:\n",
+        "    i,a,b,h,va=i\n",
+        "    print(\"{:<4}{:<22}{:<22}{:<22}{:<22}\".format(i,a,b,h,va))"
+      ]
+    }
+  ]
+}
