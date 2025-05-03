@@ -1,0 +1,160 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNN51SYYqyopTYm1/ENwIEt",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/JonaRaccoon/MetodosNumericos/blob/main/Diferencias%20Divididas\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# **Metodo de Diferencias Divididas**\n",
+        "\n",
+        "La interpolacion iterada se uso previamente para generar aproximaciones en un punto. Los metodos que se presentan se usan para generar asucesivamente los polinomios en si mismos."
+      ],
+      "metadata": {
+        "id": "iUQKoLA8dApK"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Las diferencias divididas de f respecto a x0, x1,...,xn se usan para expresar Pn(x) como:\n",
+        "\n",
+        "$Pn(x) = a0+ai(x-x0)(x-x1)+...+an(x-x0)...(x-xn-1)$\n",
+        "\n",
+        "Asi, podemos deducir que"
+      ],
+      "metadata": {
+        "id": "TKFFub9WeeKi"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "$a1 = \\frac{f(x1)-f(x0)}{x1-x0}$"
+      ],
+      "metadata": {
+        "id": "Mk6u78qdfPNc"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Y esa sera la formula para sacar las Fi,j."
+      ],
+      "metadata": {
+        "id": "gg4Cr-GSqnye"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 73,
+      "metadata": {
+        "id": "dzczkgNnrN_P"
+      },
+      "outputs": [],
+      "source": [
+        "import sympy as sp\n",
+        "import numpy as np\n",
+        "from tabulate import tabulate\n",
+        "\n",
+        "xs=[1.0,1.3,1.6,1.9,2.2]\n",
+        "fxs=[.7651977,.6200860,.4554022,.2818186,.1103623]\n",
+        "qs=[fxs]"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "En este caso, iteraremos la i manteniendo fija la j."
+      ],
+      "metadata": {
+        "id": "GcA7lWVnhWKk"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "for j in range(1,len(xs)):\n",
+        "  qs.append([])\n",
+        "  for i in range(j, len(xs)):\n",
+        "    qij=(qs[j-1][i-j+1] - qs[j-1][i-j])/(xs[i]-xs[i-j])\n",
+        "    qs[j].append(qij)"
+      ],
+      "metadata": {
+        "id": "xaBT3_LWegCy"
+      },
+      "execution_count": 74,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "table = []\n",
+        "for i in range(len(xs)):\n",
+        "    row = []\n",
+        "    for j in range(len(xs)):\n",
+        "        if j > i:\n",
+        "            row.append(\"\")\n",
+        "        else:\n",
+        "            expr = qs[j][i - j]\n",
+        "            row.append(str(expr))\n",
+        "    table.append(row)\n",
+        "\n",
+        "headers = [f\"q_{j}\" for j in range(len(xs))]\n",
+        "print(tabulate(table, headers=headers, tablefmt=\"grid\"))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ndc8E5SYjaUT",
+        "outputId": "ca3b5c9f-45a2-457b-f587-012e781c6279"
+      },
+      "execution_count": 75,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n",
+            "|      q_0 | q_1                 | q_2                  | q_3                 | q_4                   |\n",
+            "+==========+=====================+======================+=====================+=======================+\n",
+            "| 0.765198 |                     |                      |                     |                       |\n",
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n",
+            "| 0.620086 | -0.4837056666666664 |                      |                     |                       |\n",
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n",
+            "| 0.455402 | -0.548946           | -0.10873388888888935 |                     |                       |\n",
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n",
+            "| 0.281819 | -0.5786120000000003 | -0.04944333333333385 | 0.06587839506172834 |                       |\n",
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n",
+            "| 0.110362 | -0.5715209999999994 | 0.011818333333334928 | 0.06806851851852086 | 0.0018251028806604353 |\n",
+            "+----------+---------------------+----------------------+---------------------+-----------------------+\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
